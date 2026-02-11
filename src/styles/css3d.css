@@ -1,0 +1,164 @@
+/* CSS 3D Engine Styles - V2 */
+
+/* Base scene setup */
+.scene-3d {
+    perspective: 1200px;
+    /* Reduced perspective distortion */
+    transform-style: preserve-3d;
+}
+
+/* 3D Object container */
+.object-3d {
+    position: absolute;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    top: 50%;
+    left: 50%;
+}
+
+/* Cube construction */
+.cube-3d {
+    position: absolute;
+    transform-style: preserve-3d;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+}
+
+.face-3d {
+    position: absolute;
+    backface-visibility: hidden;
+    /* slight rendering optimize */
+    image-rendering: pixelated;
+    /* Center the face content */
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+    /* Adjust to center */
+    margin-top: calc(var(--height) / -2);
+    margin-left: calc(var(--width) / -2);
+}
+
+/* Face positioning */
+/* 
+   Logic: 
+   Faces are centered at (0,0,0).
+   TranslateZ moves them "out" from center.
+   Rotations orient them.
+*/
+
+.face-front {
+    width: var(--width);
+    height: var(--height);
+    transform: rotateY(0deg) translateZ(var(--depth-half));
+}
+
+.face-back {
+    width: var(--width);
+    height: var(--height);
+    transform: rotateY(180deg) translateZ(var(--depth-half));
+}
+
+.face-right {
+    width: var(--depth);
+    height: var(--height);
+    transform: rotateY(90deg) translateZ(var(--width-half));
+}
+
+.face-left {
+    width: var(--depth);
+    height: var(--height);
+    transform: rotateY(-90deg) translateZ(var(--width-half));
+}
+
+.face-top {
+    width: var(--width);
+    height: var(--depth);
+    transform: rotateX(90deg) translateZ(var(--height-half));
+}
+
+.face-bottom {
+    width: var(--width);
+    height: var(--depth);
+    transform: rotateX(-90deg) translateZ(var(--height-half));
+}
+
+
+/* Animations */
+@keyframes float-3d {
+
+    0%,
+    100% {
+        transform: translateY(0) rotateY(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotateY(0deg);
+    }
+
+    /* Gentle bob */
+}
+
+.animate-float-3d {
+    animation: float-3d 5s ease-in-out infinite;
+}
+
+/* Avatar Limb Animations */
+.avatar-arm-left {
+    animation: swing-arm-left 3s ease-in-out infinite alternate;
+}
+
+.avatar-arm-right {
+    animation: swing-arm-right 3s ease-in-out infinite alternate;
+    animation-delay: 0.5s;
+}
+
+.avatar-leg-left {
+    animation: swing-leg-left 3s ease-in-out infinite alternate;
+    animation-delay: 1.5s;
+}
+
+.avatar-leg-right {
+    animation: swing-leg-right 3s ease-in-out infinite alternate;
+    animation-delay: 1.0s;
+}
+
+@keyframes swing-arm-left {
+    from {
+        transform: translate(-48px, -32px) rotateX(10deg);
+    }
+
+    to {
+        transform: translate(-48px, -32px) rotateX(-10deg);
+    }
+}
+
+@keyframes swing-arm-right {
+    from {
+        transform: translate(48px, -32px) rotateX(-10deg);
+    }
+
+    to {
+        transform: translate(48px, -32px) rotateX(10deg);
+    }
+}
+
+@keyframes swing-leg-left {
+    from {
+        transform: translate(-16px, 48px) rotateX(-15deg);
+    }
+
+    to {
+        transform: translate(-16px, 48px) rotateX(15deg);
+    }
+}
+
+@keyframes swing-leg-right {
+    from {
+        transform: translate(16px, 48px) rotateX(15deg);
+    }
+
+    to {
+        transform: translate(16px, 48px) rotateX(-15deg);
+    }
+}

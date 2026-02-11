@@ -1,0 +1,28 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="64" height="64" rx="12" fill="#0f172a"/>
+  
+  <!-- Border -->
+  <rect x="2" y="2" width="60" height="60" rx="10" stroke="#34d399" stroke-width="4" stroke-opacity="0.5"/>
+  
+  <!-- Pixelated M -->
+  <!-- Left Leg -->
+  <rect x="14" y="14" width="8" height="36" fill="#34d399"/>
+  <!-- Right Leg -->
+  <rect x="42" y="14" width="8" height="36" fill="#22d3ee"/>
+  <!-- Middle Left -->
+  <rect x="22" y="22" width="8" height="8" fill="#34d399"/>
+  <!-- Middle Right -->
+  <rect x="34" y="22" width="8" height="8" fill="#22d3ee"/>
+  <!-- Center -->
+  <rect x="28" y="30" width="8" height="8" fill="#4ade80"/>
+  
+  <!-- Glow Effect -->
+  <filter id="glow">
+    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+    <feMerge>
+      <feMergeNode in="coloredBlur"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</svg>
