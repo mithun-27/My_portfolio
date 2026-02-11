@@ -61,8 +61,27 @@ export const Css3DAvatar = () => {
             containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
         };
 
+        const handleOrientation = (e: DeviceOrientationEvent) => {
+            if (!containerRef.current) return;
+            if (e.beta !== null && e.gamma !== null) {
+                // beta: front-back tilt [-180, 180] (rotateX)
+                // gamma: left-right tilt [-90, 90] (rotateY)
+
+                // Limit the tilt range to avoid extreme rotations
+                const x = Math.min(Math.max(e.gamma, -45), 45);
+                const y = Math.min(Math.max(e.beta - 45, -45), 45); // Subtract 45 to account for holding phone at angle
+
+                containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+            }
+        };
+
         window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
+        window.addEventListener('deviceorientation', handleOrientation);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('deviceorientation', handleOrientation);
+        };
     }, []);
 
     // Visual Dimensions (8x Multiplier)

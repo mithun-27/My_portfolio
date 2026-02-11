@@ -9,6 +9,7 @@ import { MinecraftProfiles } from "@/components/MinecraftProfiles";
 import { MinecraftAchievements } from "@/components/MinecraftAchievements";
 import { MinecraftContact } from "@/components/MinecraftContact";
 import { MinecraftFooter } from "@/components/MinecraftFooter";
+import { MinecraftWorkshops } from "@/components/MinecraftWorkshops";
 import { Hotbar } from "@/components/minecraft/Hotbar";
 import { MinecraftLoading } from "@/components/minecraft/LoadingScreen";
 
@@ -42,6 +43,7 @@ const Index = () => {
           <MinecraftProjects />
           <MinecraftProfiles />
           <MinecraftAchievements />
+          <MinecraftWorkshops />
           <MinecraftContact />
         </main>
         <MinecraftFooter />

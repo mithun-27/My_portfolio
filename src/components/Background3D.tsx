@@ -27,6 +27,7 @@ export const Background3D = () => {
     const particlesRef = useRef<Particle[]>([]);
     const cursorRef = useRef({ x: 0, y: 0 });
     const lastPosRef = useRef({ x: 0, y: 0 });
+    const tiltRef = useRef({ x: 0, y: 0 });
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -62,20 +63,16 @@ export const Background3D = () => {
         window.addEventListener('resize', handleResize);
         handleResize();
 
-        const handleMouseMove = (e: MouseEvent) => {
-            const { clientX, clientY } = e;
-            cursorRef.current = { x: clientX, y: clientY };
-
-            // Spawn Burst Particles on Move (Comet Tail)
-            const dx = clientX - lastPosRef.current.x;
-            const dy = clientY - lastPosRef.current.y;
+        const spawnParticles = (x: number, y: number, lastX: number, lastY: number) => {
+            const dx = x - lastX;
+            const dy = y - lastY;
             const dist = Math.sqrt(dx * dx + dy * dy);
 
             const steps = Math.min(dist, 10);
             for (let i = 0; i < steps; i++) {
                 const t = i / steps;
-                const px = lastPosRef.current.x + dx * t;
-                const py = lastPosRef.current.y + dy * t;
+                const px = lastX + dx * t;
+                const py = lastY + dy * t;
 
                 if (Math.random() > 0.5) {
                     particlesRef.current.push({
@@ -85,16 +82,38 @@ export const Background3D = () => {
                         vy: 0,
                         life: 1.0,
                         maxLife: 1.0,
-                        size: Math.random() * 2 + 1, // Halved size
+                        size: Math.random() * 2 + 1,
                         color: 'rgba(74, 222, 128, 0.5)',
                         glow: true
                     });
                 }
             }
+        };
 
+
+
+        const handlePointerMove = (e: PointerEvent) => {
+            const { clientX, clientY } = e;
+            cursorRef.current = { x: clientX, y: clientY };
+            spawnParticles(clientX, clientY, lastPosRef.current.x, lastPosRef.current.y);
             lastPosRef.current = { x: clientX, y: clientY };
         };
-        window.addEventListener('mousemove', handleMouseMove);
+
+        const handleOrientation = (e: DeviceOrientationEvent) => {
+            if (e.beta !== null && e.gamma !== null) {
+                // beta: front-back tilt [-180, 180], gamma: left-right tilt [-90, 90]
+                // Normalize and smooth - REDUCED SENSITIVITY from 5 to 0.5
+                tiltRef.current = {
+                    x: e.gamma * 0.5,
+                    y: e.beta * 0.5
+                };
+            }
+        };
+
+        // Use Pointer Events for unified Mouse/Touch handling
+        window.addEventListener('pointermove', handlePointerMove);
+        window.addEventListener('pointerdown', handlePointerMove);
+        window.addEventListener('deviceorientation', handleOrientation);
 
         const animate = () => {
             ctx.fillStyle = 'rgba(5, 5, 5, 0.3)';
@@ -102,8 +121,10 @@ export const Background3D = () => {
 
             const cx = canvas.width / 2;
             const cy = canvas.height / 2;
-            const targetX = (cursorRef.current.x - cx) * 0.05;
-            const targetY = (cursorRef.current.y - cy) * 0.05;
+
+            // Combine Cursor and Gyroscope for Parallax
+            const targetX = ((cursorRef.current.x - cx) + tiltRef.current.x * 10) * 0.05;
+            const targetY = ((cursorRef.current.y - cy) + tiltRef.current.y * 10) * 0.05;
 
             // Draw Stars
             starsRef.current.forEach(star => {
@@ -127,6 +148,10 @@ export const Background3D = () => {
             // Update & Draw Particles
             for (let i = particlesRef.current.length - 1; i >= 0; i--) {
                 const p = particlesRef.current[i];
+                // Add slight gravity influence from tilt
+                p.vx += tiltRef.current.x * 0.001;
+                p.vy += tiltRef.current.y * 0.001;
+
                 p.x += p.vx;
                 p.y += p.vy;
                 p.life -= 0.02;
@@ -186,7 +211,9 @@ export const Background3D = () => {
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('pointermove', handlePointerMove);
+            window.removeEventListener('pointerdown', handlePointerMove);
+            window.removeEventListener('deviceorientation', handleOrientation);
             if (requestRef.current) cancelAnimationFrame(requestRef.current);
         };
     }, []);

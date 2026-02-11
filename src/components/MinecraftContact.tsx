@@ -21,6 +21,7 @@ export const MinecraftContact = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -31,31 +32,39 @@ export const MinecraftContact = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setError(null);
 
         try {
             // 1. Save to Firestore (Database Backup)
-            await addDoc(collection(db, "messages"), {
-                ...formData,
-                timestamp: new Date()
-            });
+            try {
+                await addDoc(collection(db, "messages"), {
+                    ...formData,
+                    timestamp: new Date()
+                });
+            } catch (dbError: any) {
+                console.error("Firestore Error:", dbError);
+                throw new Error("Failed to save message to database. Please try again later or email me directly.");
+            }
 
             // 2. Send Email via EmailJS
-            // REPLACE THESE WITH YOUR ACTUAL KEYS FROM https://www.emailjs.com/
-            const SERVICE_ID = "service_t0v19g6"; // ✅ You created this!
-            const TEMPLATE_ID = "template_9aolzn5"; // 🔍 Go to "Email Templates" tab on the left -> Create New Template -> ID is at the top
-            const PUBLIC_KEY = "Y9BMLWRMQIxl3qSPV"; // 🔑 Click your Name (top right) -> "Account" -> Copy "Public Key"
+            const SERVICE_ID = "service_t0v19g6";
+            const TEMPLATE_ID = "template_9aolzn5";
+            const PUBLIC_KEY = "Y9BMLWRMQIxl3qSPV";
 
             try {
+                const templateParams = {
+                    to_name: "Mithun",
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    message: formData.message,
+                    reply_to: formData.email,
+                };
+                console.log("Sending email with data:", templateParams);
+
                 await emailjs.send(
                     SERVICE_ID,
                     TEMPLATE_ID,
-                    {
-                        to_name: "Mithun",
-                        from_name: formData.name,
-                        from_email: formData.email,
-                        message: formData.message,
-                        reply_to: formData.email,
-                    },
+                    templateParams,
                     PUBLIC_KEY
                 );
                 console.log("Email sent successfully!");
@@ -67,10 +76,10 @@ export const MinecraftContact = () => {
             setIsSubmitting(false);
             setSubmitted(true);
             setFormData({ name: "", email: "", message: "" }); // Reset form
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error sending message: ", error);
+            setError(error.message || "Something went wrong. Please try again.");
             setIsSubmitting(false);
-            // Optionally handle error state here
         }
     };
 
@@ -115,6 +124,12 @@ export const MinecraftContact = () => {
                                 <Send className="w-5 h-5" />
                                 Send Message
                             </h3>
+
+                            {error && (
+                                <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded text-red-200 text-sm font-minecraft">
+                                    {error}
+                                </div>
+                            )}
 
                             {submitted ? (
                                 <motion.div

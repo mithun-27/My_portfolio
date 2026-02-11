@@ -200,7 +200,7 @@ export const MinecraftHero = () => {
                 </div>
 
                 <motion.div
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-white/50 cursor-pointer hover:text-white transition-colors"
+                    className="relative mt-12 lg:absolute lg:bottom-10 lg:mt-0 lg:left-1/2 lg:-translate-x-1/2 flex flex-col items-center gap-3 text-white/50 cursor-pointer hover:text-white transition-colors"
                     animate={{ y: [0, 10, 0] }}
                     transition={{ duration: 2, repeat: Infinity }}
                     onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}

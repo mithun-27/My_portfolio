@@ -10,7 +10,8 @@ import {
     Mail,
     Menu,
     X,
-    Pickaxe
+    Pickaxe,
+    BookOpen
 } from "lucide-react";
 
 interface HotbarItem {
@@ -28,6 +29,7 @@ const hotbarItems: HotbarItem[] = [
     { id: "projects", label: "Projects", icon: <FolderGit2 className="w-5 h-5" />, section: "projects" },
     { id: "profiles", label: "Profiles", icon: <Briefcase className="w-5 h-5" />, section: "profiles" },
     { id: "achievements", label: "Achievements", icon: <Trophy className="w-5 h-5" />, section: "achievements" },
+    { id: "workshops", label: "Workshops", icon: <BookOpen className="w-5 h-5" />, section: "workshops" },
     { id: "contact", label: "Contact", icon: <Mail className="w-5 h-5" />, section: "contact" },
 ];
 
@@ -129,7 +131,7 @@ export const Hotbar = () => {
                     className="absolute left-full top-1/2 -translate-y-1/2 ml-4 w-max pointer-events-none"
                 >
                     <div className="bg-black/80 text-white text-[10px] px-2 py-1 rounded font-minecraft rotate-90 origin-left translate-y-20 translate-x-[-10px] opacity-50">
-                        1-8 to navigate
+                        1-9 to navigate
                     </div>
                 </motion.div>
             </motion.nav>
