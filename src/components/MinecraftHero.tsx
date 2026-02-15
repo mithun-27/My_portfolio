@@ -126,7 +126,7 @@ export const MinecraftHero = () => {
                                 </span>
                             </h1>
                             <h2 className="text-2xl sm:text-3xl text-gray-300 font-light">
-                                <span className="text-emerald-400 font-semibold">Freelancing Portfolio</span> | AI Engineer
+                                <span className="text-emerald-400 font-semibold">Portfolio</span> | AI Engineer
                             </h2>
                         </motion.div>
 
