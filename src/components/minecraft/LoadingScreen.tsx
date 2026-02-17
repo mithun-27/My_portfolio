@@ -87,7 +87,7 @@ export const MinecraftLoading = ({ onComplete }: { onComplete: () => void }) => 
                     transition={{ delay: 0.3 }}
                     className="text-muted-foreground font-minecraft mb-8"
                 >
-                    AI & ML Engineer Portfolio
+                    AI Developer & Fullstack Developer Portfolio
                 </motion.p>
 
                 {/* Loading bar container */}

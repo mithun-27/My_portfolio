@@ -11,6 +11,7 @@ import { MinecraftContact } from "@/components/MinecraftContact";
 import { MinecraftFooter } from "@/components/MinecraftFooter";
 import { MinecraftWorkshops } from "@/components/MinecraftWorkshops";
 import { Hotbar } from "@/components/minecraft/Hotbar";
+import { Chatbot } from "@/components/minecraft/Chatbot";
 import { MinecraftLoading } from "@/components/minecraft/LoadingScreen";
 
 const Index = () => {
@@ -35,6 +36,7 @@ const Index = () => {
 
       <div className={`min-h-screen relative z-10 overflow-x-hidden minecraft-cursor ${isLoading ? 'hidden' : ''}`}>
         <Hotbar />
+        <Chatbot />
         <main>
           <MinecraftHero />
           <MinecraftAbout />

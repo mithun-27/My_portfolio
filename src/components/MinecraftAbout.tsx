@@ -115,7 +115,7 @@ export const MinecraftAbout = () => {
                                 </div>
                                 <div>
                                     <h3 className="text-2xl font-minecraft text-emerald-400">Mithun</h3>
-                                    <p className="text-muted-foreground font-minecraft text-sm">AI & ML Engineer</p>
+                                    <p className="text-muted-foreground font-minecraft text-sm">AI Developer & Fullstack Developer</p>
                                     <div className="flex gap-1 mt-1">
                                         <span className="px-2 py-0.5 text-xs bg-emerald-500/20 text-emerald-400 rounded font-minecraft">
                                             LVL 42

@@ -30,7 +30,7 @@ export const MinecraftFooter = () => {
                         </div>
                         <div>
                             <span className="font-minecraft text-base text-emerald-400">MITHUN</span>
-                            <p className="text-[10px] text-muted-foreground">AI & ML Engineer</p>
+                            <p className="text-[10px] text-muted-foreground">AI Developer & Fullstack Developer</p>
                         </div>
                     </motion.div>
 

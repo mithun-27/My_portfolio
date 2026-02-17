@@ -176,6 +176,11 @@ export const MinecraftJumpGame = () => {
         };
 
         const onKeyDown = (e: KeyboardEvent) => {
+            // Ignore if user is typing in an input or textarea
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+                return;
+            }
+
             if (e.code === 'Space' || e.code === 'ArrowUp') {
                 handleJump();
                 if (e.code === 'Space') e.preventDefault();

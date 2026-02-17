@@ -19,17 +19,17 @@ interface Experience {
 const experiences: Experience[] = [
     {
         company: "Quadrobay Technology",
-        role: "Fullstack AI & UI/UX Intern",
+        role: "AI Developer & Fullstack Developer",
         location: "Chennai, India (Onsite)",
-        date: "2024 - Present",
+        date: "2025 - Present",
         type: "Internship",
-        description: "Worked as a stipend-based intern contributing to core product development. Developed and deployed 3+ major projects leveraging Fullstack technologies, AI capabilities, and modern UI/UX principles.",
-        skills: ["React", "Node.js", "AI/ML", "UI/UX Design", "Figma"],
+        description: "Worked as a stipend-based intern contributing to core product development. Developed and deployed 3+ major projects leveraging Fullstack technologies, AI capabilities, and modern UI design principles.",
+        skills: ["React", "Node.js", "AI/ML", "UI Design", "Figma"],
         link: "https://quadrobay.com/",
         achievements: [
             "Developed 3+ Production-grade Projects",
             "Implemented AI-driven features",
-            "Designed Modern UI/UX interfaces",
+            "Designed Modern UI interfaces",
             "Earned Performance-based Stipend"
         ]
     }
@@ -96,18 +96,18 @@ export const MinecraftExperience = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col items-end text-sm text-muted-foreground font-minecraft">
-                                    <div className="flex items-center gap-2">
-                                        <Calendar className="w-4 h-4" />
-                                        {exp.date}
+                                <div className="flex flex-col items-end text-sm text-muted-foreground font-minecraft text-right w-full md:w-auto ml-auto">
+                                    <div className="flex items-center gap-2 flex-row-reverse">
+                                        <Calendar className="w-4 h-4 text-yellow-500/50" />
+                                        <span>{exp.date}</span>
                                     </div>
-                                    <div className="flex items-center gap-2 text-xs opacity-70">
-                                        <MapPin className="w-3 h-3" />
-                                        {exp.location}
+                                    <div className="flex items-center gap-2 text-xs opacity-70 flex-row-reverse">
+                                        <MapPin className="w-3 h-3 text-emerald-500/50" />
+                                        <span>{exp.location}</span>
                                     </div>
-                                    <div className="flex items-center gap-2 text-xs opacity-70">
-                                        <Mail className="w-3 h-3" />
-                                        mithun.saravanan@quadrobay.com
+                                    <div className="flex items-center gap-2 text-xs opacity-70 flex-row-reverse">
+                                        <Mail className="w-3 h-3 text-cyan-500/50" />
+                                        <span>mithun.saravanan@quadrobay.com</span>
                                     </div>
                                 </div>
                             </div>

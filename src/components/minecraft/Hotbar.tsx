@@ -42,6 +42,11 @@ export const Hotbar = () => {
     // Keyboard navigation (1-7 keys)
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            // Ignore if user is typing in an input or textarea
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+                return;
+            }
+
             const key = parseInt(e.key);
             if (key >= 1 && key <= hotbarItems.length) {
                 setActiveSlot(key - 1);

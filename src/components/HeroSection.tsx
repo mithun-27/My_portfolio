@@ -40,7 +40,7 @@ export const HeroSection = () => {
             Hi, I'm{" "}
             <span className="gradient-text">Mithun</span>
             <br />
-            <span className="text-foreground">AI & ML Engineer</span>
+            <span className="text-foreground">AI Developer & Fullstack Developer</span>
           </motion.h1>
 
           {/* Subtitle */}
