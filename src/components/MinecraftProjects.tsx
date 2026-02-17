@@ -101,28 +101,35 @@ const ProjectChest = ({ project, index }: { project: Project; index: number }) =
     const [miningProgress, setMiningProgress] = useState(0);
     const [isMining, setIsMining] = useState(false);
 
-    const handleMouseDown = () => {
+    const startMining = () => {
         setIsMining(true);
         let progress = 0;
         const interval = setInterval(() => {
-            progress += 0.2;
-            setMiningProgress(Math.min(progress, 1));
-            if (progress >= 1) {
-                clearInterval(interval);
-                setIsOpen(true);
-                setIsMining(false);
-            }
+            progress += 0.05; // Slightly slower for better feel
+            setMiningProgress(prev => {
+                const next = prev + 0.05;
+                if (next >= 1) {
+                    clearInterval(interval);
+                    setIsOpen(true);
+                    setIsMining(false);
+                    return 1;
+                }
+                return next;
+            });
         }, 100);
 
-        const handleMouseUp = () => {
+        const stopMining = () => {
             clearInterval(interval);
             setIsMining(false);
-            if (progress < 1) {
-                setMiningProgress(0);
-            }
-            document.removeEventListener("mouseup", handleMouseUp);
+            setMiningProgress(0);
+            window.removeEventListener("mouseup", stopMining);
+            window.removeEventListener("touchend", stopMining);
+            window.removeEventListener("touchcancel", stopMining);
         };
-        document.addEventListener("mouseup", handleMouseUp);
+
+        window.addEventListener("mouseup", stopMining);
+        window.addEventListener("touchend", stopMining);
+        window.addEventListener("touchcancel", stopMining);
     };
 
     return (
@@ -140,8 +147,10 @@ const ProjectChest = ({ project, index }: { project: Project; index: number }) =
                         initial={{ rotateY: 0 }}
                         exit={{ rotateY: 90, opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        onMouseDown={handleMouseDown}
-                        className={`relative h-64 rounded-lg bg-gradient-to-br ${oreGradients[project.ore]} cursor-pointer overflow-hidden`}
+                        onMouseDown={startMining}
+                        onTouchStart={startMining}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className={`relative h-64 rounded-lg bg-gradient-to-br ${oreGradients[project.ore]} cursor-pointer overflow-hidden touch-none`}
                         style={{
                             boxShadow: isMining
                                 ? `0 0 30px rgba(255,255,255,0.5), inset 0 0 20px rgba(0,0,0,0.3)`
